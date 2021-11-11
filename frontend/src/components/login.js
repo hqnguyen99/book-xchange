@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import LoginButton from './button/LoginButton'
+import PropTypes from 'prop-types';
 import { Color } from './button/LoginButton'
-import axios from 'axios'
 
 const MiddleOfPage= styled.div`
     display: flex;
@@ -15,7 +15,7 @@ const MiddleOfPage= styled.div`
     transform: translate(-50%, -50%);
 `;
 async function loginUser(credentials) {
-    return fetch('http://localhost:8080/login', {
+    return fetch('', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -24,12 +24,20 @@ async function loginUser(credentials) {
     })
       .then(data => data.json())
    }
-export default function LoginPage() {
+export default function Login({setToken}) {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const token = await loginUser({
+          username,
+          password
+        });
+        setToken(token);
+      }
     return(
         <MiddleOfPage>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label>
             <p>Username*</p>
             <input type="text" onChange={e=> setUserName(e.target.value)}/>
@@ -45,3 +53,6 @@ export default function LoginPage() {
         </MiddleOfPage>
       )
 }
+Login.propTypes = {
+    setToken: PropTypes.func.isRequired
+  };

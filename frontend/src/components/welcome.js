@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import LoginButton from './button/LoginButton';
 import SignUpButton from './button/SignUpButton';
+import { useNavigate } from 'react-router-dom';
 
 const Color = {
     teaGreen: "#C5E7CD",
@@ -38,12 +39,16 @@ const GridTwoColumn= styled.div`
 `;
 
 export default function Welcome(){
+    const history = useNavigate()
+    function routeChange(path){ 
+        history(path);
+    }
     return (
         <MiddleOfPage>
             <Logo> BookXChange</Logo>
             <GridTwoColumn>
-                <LoginButton/>
-                <SignUpButton/>
+                <LoginButton onClick={()=>routeChange('login')}/>
+                <SignUpButton onClick={()=>routeChange('signup')}/>
             </GridTwoColumn>
         </MiddleOfPage>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom';
+
 
 
 export const Color ={
@@ -38,11 +38,8 @@ const Button=styled.button`
     }
 `
 export default function LoginButton(){
-    const history = useNavigate()
-    function routeChange(path){ 
-        history(path);
-    }
+    
     return (
-        <Button className="primary" onClick={()=>routeChange('login')}>Log In</Button>
+        <Button className="primary">Log In</Button>
     )
 }
