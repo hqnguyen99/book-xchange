@@ -1,6 +1,5 @@
 import React, { useRef, useContext} from 'react'
 import styled from 'styled-components'
-import ButtonOne from '../button/ButtonOne'
 import ButtonTwo from '../button/ButtonTwo';
 import AuthContext from '../../store/auth-context';
 
@@ -15,17 +14,17 @@ const MiddleOfPage= styled.div`
     transform: translate(-50%, -50%);
 `;
 
-export default function LoginForm({navigateHandler}) {
-    const loginEndpoint= 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDlQ6bxuJRUZWpS6aTw5wyUN_2p55XawB0'
+export default function SignupForm({navigateHandler}) {
+    const signupEndpoint= 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDlQ6bxuJRUZWpS6aTw5wyUN_2p55XawB0'
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const authCtx= useContext(AuthContext)
-    
+
     const handleSubmit = async e => {
         e.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
-        fetch(loginEndpoint,{
+        fetch(signupEndpoint,{
             method: 'POST',
             body: JSON.stringify({
                 email: enteredEmail,
@@ -50,7 +49,7 @@ export default function LoginForm({navigateHandler}) {
             }
           })
           .then((data) => {
-            authCtx.login(data.idToken);
+            authCtx.login(data.idToken)
             navigateHandler()
           })
           .catch((err) => {
@@ -69,10 +68,9 @@ export default function LoginForm({navigateHandler}) {
             <input type="password" required ref={passwordInputRef}/>
           </label>
           <div>
-            <ButtonOne type="submit" title ="Login"></ButtonOne>
+            <ButtonTwo type="submit" title ="Sign Up"></ButtonTwo>
           </div>
-        </form>
-            <ButtonTwo onClick={navigateHandler} title= "Login as Guest"/> 
+        </form> 
         </MiddleOfPage>
       )
 }

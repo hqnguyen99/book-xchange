@@ -36,8 +36,8 @@ export default function Welcome(){
         <MiddleOfPage>
             <Logo> BookXChange</Logo>
             <GridTwoColumn>
-                <ButtonOne onClick={()=>routeChange('login')} title= "Log In"/>
-                <ButtonTwo onClick={()=>routeChange('signup')} title= "Sign Up"/>
+                <ButtonOne onClick={()=>routeChange('/login')} title= "Log In"/>
+                <ButtonTwo onClick={()=>routeChange('/signup')} title= "Sign Up"/>
             </GridTwoColumn>
         </MiddleOfPage>
     )
