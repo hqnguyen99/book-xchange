@@ -35,8 +35,8 @@ const Button=styled.button`
         color: ${Color.hover_color};
     }
 `
-export default function SignUpButton(){
+export default function ButtonTwo(props){
     return (
-        <Button className="primary">Sign Up</Button>
+        <Button className="primary" onClick= {props.onClick}>{props.title}</Button>
     )
 }

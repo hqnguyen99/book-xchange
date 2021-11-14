@@ -37,9 +37,8 @@ const Button=styled.button`
         color: ${Color.hover_color};
     }
 `
-export default function LoginButton(){
-    
+export default function ButtonOne(props){
     return (
-        <Button className="primary">Log In</Button>
+        <Button className="primary" onClick={props.onClick}>{props.title}</Button>
     )
 }

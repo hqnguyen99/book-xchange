@@ -1,20 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import LoginButton from './button/LoginButton';
-import SignUpButton from './button/SignUpButton';
+import ButtonOne from '../button/ButtonOne';
+import ButtonTwo from '../button/ButtonTwo';
 import { useNavigate } from 'react-router-dom';
 
-const Color = {
-    teaGreen: "#C5E7CD",
-    metallicBlue: "#3A5874",
-    cream: "#FFFBD4",
-    deepPeach: "#FFCCAA",
-    rackley: "#5A7D9F",
-    pastelRed: "#FF6961",
-    beauBlue: "#BCD9EC",
-    turquoiseGreen: "#A1D4AD",
-    orange: "#FF6766",
-};
 
 const Logo = styled.h1`
     font-family: 'Great Vibes', cursive;
@@ -47,8 +36,8 @@ export default function Welcome(){
         <MiddleOfPage>
             <Logo> BookXChange</Logo>
             <GridTwoColumn>
-                <LoginButton onClick={()=>routeChange('login')}/>
-                <SignUpButton onClick={()=>routeChange('signup')}/>
+                <ButtonOne onClick={()=>routeChange('login')} title= "Log In"/>
+                <ButtonTwo onClick={()=>routeChange('signup')} title= "Sign Up"/>
             </GridTwoColumn>
         </MiddleOfPage>
     )
