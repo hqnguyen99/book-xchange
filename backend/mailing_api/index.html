@@ -1,0 +1,57 @@
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Emailing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+
+  <script>
+
+    async function submitForm(e, form){
+      e.preventDefault();
+      const btnSubmit = document.getElementById('btnSubmit');
+      btnSubmit.disabled = true;
+      setTimeout(() => btn.Submit.dsabled = false, 2000);
+      const jsonFormData = buildJsonFormData(form);
+      const headers = buildHeaders();
+      const response = await fetchService
+    }
+
+    const emailForm = document.querySelector("#emailForm");
+    if(emailForm){
+      emailForm.addEventListener("submit", function(e){
+        submitForm(e, this);
+      })
+    }
+
+
+  </script>
+  <body>
+    <div class="container">
+      <h1>Emailing</h1>
+      <form action="/" id="emailForm" method="POST">
+        <div class="form-group">
+          <label for="email">To</label>
+          <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email goes here" name="email">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <input type="text" class="form-control" id="message" aria-describedby="emailHelp" placeholder="Message goes here" name="message">
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email">
+        </div>
+        
+        
+        <button type="submit" id="btnSubmit" class="btn btn-primary">Send</button>
+        
+      </form>
+  </body>
+</html>
+-->
