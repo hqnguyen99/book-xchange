@@ -7,6 +7,7 @@ import Welcome from './components/pages/welcome';
 import Login from './components/pages/login';
 import Home from './components/pages/home';
 import Signup from './components/pages/signup';
+import SellPage from './components/pages/sellBook';
 function App() {
   return (
    <Router>
@@ -15,6 +16,8 @@ function App() {
        <Route path="/login" element={<Login/>}></Route>
        <Route path="/home" element={<Home/>}></Route>
        <Route path="/signup" element={<Signup/>}></Route>
+       <Route path="/home" element={<Home/>}></Route>
+       <Route path="/sell" element={<SellPage/>}></Route>
      </Routes>
    </Router>
   );
