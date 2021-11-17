@@ -10,3 +10,9 @@ services:
       - '/app/node_modules'
     ports:
       - 3001:3001
+  backend:
+    build:
+      context: backend/user_micoService
+      dockerfile: Dockerfile-backend
+    ports:
+      - 3000:3000
