@@ -39,79 +39,81 @@ function GlobalFilter({
     preGlobalFilteredRows,
     globalFilter,
     setGlobalFilter,
-  }) {
+}) {
     const count = preGlobalFilteredRows.length
     const [value, setValue] = React.useState(globalFilter)
     const onChange = useAsyncDebounce(value => {
-      setGlobalFilter(value || undefined)
+        setGlobalFilter(value || undefined)
     }, 200)
-  
-    return (
-      <span>
-        Search:{' '}
-        <input
-          value={value || ""}
-          onChange={e => {
-            setValue(e.target.value);
-            onChange(e.target.value);
-          }}
-          placeholder={`${count} records...`}
-        />
-      </span>
-    )
-  }
 
-  function submitClick(value){
+    return (
+        <span>
+            Search:{' '}
+            <input
+                value={value || ""}
+                onChange={e => {
+                    setValue(e.target.value);
+                    onChange(e.target.value);
+                }}
+                placeholder={`${count} records...`}
+            />
+        </span>
+    )
+}
+
+function submitClick(value) {
     console.log(value);
     //write the further functionality
-  }
+}
 
-function Table({ columns, data }) {
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, preGlobalFilteredRows, setGlobalFilter, } =
-    useTable(
-        {
-            columns,
-            data,
-        },
-        useGlobalFilter,
-        useSortBy,
-    )
+function Table({ columns, data, getRowProps = () => ({}) }) {
+    const { getTableProps, headerGroups, rows, prepareRow, state, preGlobalFilteredRows, setGlobalFilter, } =
+        useTable(
+            {
+                columns,
+                data,
+            },
+            useGlobalFilter,
+            useSortBy,
+        )
 
     return (
         <>
-      <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={state.globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-        <table {...getTableProps()}>
-            <thead>
-                {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                {column.render('Header')}
-                                <span>
-                                    {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                                </span>
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                    prepareRow(row)
-                    return (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
-                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                            })}
+            <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                globalFilter={state.globalFilter}
+                setGlobalFilter={setGlobalFilter}
+            />
+            <table {...getTableProps()}>
+                <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                                    </span>
+                                </th>
+                            ))}
                         </tr>
-                    )
-                })}
-            </tbody>
-        </table>
+                    ))}
+                </thead>
+                <tbody>
+                    {rows.map(
+                        (row, i) =>
+                            prepareRow(row) || (
+                                <tr {...row.getRowProps(getRowProps(row))}>
+                                    {row.cells.map(cell => {
+                                        return (
+                                            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                        );
+                                    })}
+                                </tr>
+                            )
+                    )}
+                </tbody>
+            </table>
         </>
     )
 }
@@ -150,7 +152,7 @@ export default function Home() {
                     {
                         Header: 'Info',
                         accessor: 'info',
-                        Cell: props => <button onClick={()=>submitClick(props.value)}>Click me </button>
+                        Cell: props => <button onClick={() => submitClick(props.value)}>Buy</button>
                     },
                 ],
             },
@@ -195,6 +197,8 @@ export default function Home() {
                 address: '796 Bryan Avenue, Minneapolis, MN 55406',
                 date: '07/07/2020',
                 order: '87574505851064',
+                info: 'sdfsdfsdfsdf',
+                a: 'eefdfs',
             },
         ],
         []
@@ -202,7 +206,16 @@ export default function Home() {
 
     return (
         <Styles>
-            <Table columns={columns} data={data} />
+          <Table
+            columns={columns}
+            data={data}
+            getRowProps={row => ({
+              onClick: () => alert(JSON.stringify(row.values)),
+              style: {
+                cursor: "pointer"
+              }
+            })}
+          />
         </Styles>
-    )
+    );
 }
