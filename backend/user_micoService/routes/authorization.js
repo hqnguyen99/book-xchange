@@ -2,7 +2,7 @@ import express from 'express'
 import pool from '../qurries.js'
 import bcrypt, { hash } from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { getUsers } from '../../queries.js'
+// import { getUsers } from '../queries.js'
 import {getTokens} from './jwt.js'
 
 const router = express.Router()

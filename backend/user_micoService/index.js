@@ -20,7 +20,7 @@ app.use(cors(corsOpts))
 app.use(json())
 
 // app.use('/', "Satnam ji")
-app.use('/users/all', userRouter)
+app.use('/user', userRouter)
 app.use('/auth', authRouter)
 
 app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})
