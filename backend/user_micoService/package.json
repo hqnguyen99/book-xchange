@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon .",
-    "start": "node ."
+    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node .",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node ."
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,8 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
     "json": "^11.0.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",

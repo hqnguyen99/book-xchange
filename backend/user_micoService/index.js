@@ -20,4 +20,4 @@ app.use(json())
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
 
-app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})
+app.listen(80, ()=>{console.log(`server is listening on ${PORT}`)})
