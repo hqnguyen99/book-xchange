@@ -2,6 +2,7 @@ import React, { useRef, useContext} from 'react'
 import styled from 'styled-components'
 import ButtonTwo from '../button/ButtonTwo';
 import AuthContext from '../../store/auth-context';
+import Url from '../../store/url';
 
 const MiddleOfPage= styled.div`
     display: flex;
@@ -15,21 +16,29 @@ const MiddleOfPage= styled.div`
 `;
 
 export default function SignupForm({navigateHandler}) {
-    const signupEndpoint= 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDlQ6bxuJRUZWpS6aTw5wyUN_2p55XawB0'
+    const signupEndpoint= Url.signup_url;
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
+    const nameInputRef = useRef();
+    const lastNameInputRef = useRef();
+    const phoneInputRef = useRef();
     const authCtx= useContext(AuthContext)
 
     const handleSubmit = async e => {
         e.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
+        const enteredName= nameInputRef.current.value;
+        const enteredLastName= lastNameInputRef.current.value;
+        const enteredPhone= phoneInputRef.current.value;
         fetch(signupEndpoint,{
             method: 'POST',
             body: JSON.stringify({
+                name: enteredName,
+                lastName: enteredLastName,
                 email: enteredEmail,
+                phone: enteredPhone,
                 password: enteredPassword,
-                returnSecureToken: true,
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -59,9 +68,21 @@ export default function SignupForm({navigateHandler}) {
     return(
         <MiddleOfPage>
         <form onSubmit={handleSubmit}>
+        <label>
+            <p>Name*</p>
+            <input type="text" id='name' required ref={nameInputRef}/>
+          </label>
+          <label>
+            <p>Last name*</p>
+            <input type="text" id='lastName' required ref={lastNameInputRef}/>
+          </label>
           <label>
             <p>Email*</p>
             <input type="email" id='email' required ref={emailInputRef}/>
+          </label>
+          <label>
+            <p>Phone*</p>
+            <input type="number" id='phone' required ref={phoneInputRef}/>
           </label>
           <label>
             <p>Password*</p>

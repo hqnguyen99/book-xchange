@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ButtonOne from '../button/ButtonOne'
 import ButtonTwo from '../button/ButtonTwo';
 import AuthContext from '../../store/auth-context';
+import Url from '../../store/url';
 
 const MiddleOfPage= styled.div`
     display: flex;
@@ -16,7 +17,7 @@ const MiddleOfPage= styled.div`
 `;
 
 export default function LoginForm({navigateHandler}) {
-    const loginEndpoint= 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDlQ6bxuJRUZWpS6aTw5wyUN_2p55XawB0'
+    const loginEndpoint= Url.login_url;
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const authCtx= useContext(AuthContext)
@@ -30,7 +31,6 @@ export default function LoginForm({navigateHandler}) {
             body: JSON.stringify({
                 email: enteredEmail,
                 password: enteredPassword,
-                returnSecureToken: true,
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export default function LoginForm({navigateHandler}) {
             }
           })
           .then((data) => {
-            authCtx.login(data.idToken);
+            authCtx.login(data.accessToken);
             navigateHandler()
           })
           .catch((err) => {

@@ -11,14 +11,14 @@ yarn
 ```bash
 docker-compose up --build
 ```
-Website will be available on localhost:3000
+Website will be available on localhost:3001
 
 ## Installation with Docker
 ```
 yarn install
 yarn start
 ```
-Website will be available on localhost:3000
+Website will be available on localhost:3001
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
