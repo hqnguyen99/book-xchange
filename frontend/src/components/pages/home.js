@@ -27,8 +27,8 @@ const Styles = styled.div`
    }
   
    th {
-     background: green;
-     border-bottom: 3px solid blue;
+     background: orange;
+     border-bottom: 2px solid black;
      color: white;
      fontWeight: bold;
    }
@@ -59,6 +59,11 @@ function GlobalFilter({
         />
       </span>
     )
+  }
+
+  function submitClick(value){
+    console.log(value);
+    //write the further functionality
   }
 
 function Table({ columns, data }) {
@@ -141,6 +146,11 @@ export default function Home() {
                         Header: 'Order #',
                         accessor: 'order',
                         sortType: 'alphanumeric',
+                    },
+                    {
+                        Header: 'Info',
+                        accessor: 'info',
+                        Cell: props => <button onClick={()=>submitClick(props.value)}>Click me </button>
                     },
                 ],
             },
