@@ -1,6 +1,6 @@
 import express from 'express'
 import pool from '../qurries.js'
-import bcrypt, { hash } from 'bcrypt'
+import bcrypt from 'bcrypt'
 import {verifyToken} from './verify_token.js'
 
 const router = express.Router();
@@ -16,7 +16,6 @@ router.get('/all', verifyToken, async (req, res) => {
 
 router.post('/signup', async (req, res)=> {
     try{
-        // console.log(req)
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUser = await pool.query('INSERT INTO users (name, lastName, email, phone, password) VALUES ($1, $2, $3, $4, $5) RETURNING *', 
             [req.body.name, req.body.lastName, req.body.email, req.body.phone, hashedPassword])
