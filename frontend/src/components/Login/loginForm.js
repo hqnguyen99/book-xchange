@@ -18,18 +18,18 @@ const MiddleOfPage= styled.div`
 
 export default function LoginForm({navigateHandler}) {
     const loginEndpoint= Url.login_url;
-    const emailInputRef = useRef();
+    const loginIdInputRef = useRef();
     const passwordInputRef = useRef();
     const authCtx= useContext(AuthContext)
     
     const handleSubmit = async e => {
         e.preventDefault();
-        const enteredEmail = emailInputRef.current.value;
+        const enteredLoginId = loginIdInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
         fetch(loginEndpoint,{
             method: 'POST',
             body: JSON.stringify({
-                email: enteredEmail,
+                login_id: enteredLoginId,
                 password: enteredPassword,
             }),
             headers: {
@@ -61,8 +61,8 @@ export default function LoginForm({navigateHandler}) {
         <MiddleOfPage>
         <form onSubmit={handleSubmit}>
           <label>
-            <p>Email*</p>
-            <input type="email" id='email' required ref={emailInputRef}/>
+            <p>Login Id*</p>
+            <input type="text" id='login_id' required ref={loginIdInputRef}/>
           </label>
           <label>
             <p>Password*</p>
