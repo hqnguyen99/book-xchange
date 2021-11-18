@@ -21,7 +21,7 @@ router.post('/signup', async (req, res)=> {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUser = await db_connection.query('INSERT INTO UserInfo (login_id, password, email, first_name, last_name, address, postal_code) VALUES ?',
-            [[['abcd', hashedPassword, req.body.email, req.body.first_name, req.body.last_name, req.body.address, req.body.postal_code]]], 
+            [[[req.body.login_id, hashedPassword, req.body.email, req.body.first_name, req.body.last_name, req.body.address, req.body.postal_code]]], 
             function (err, result){
                 if(err)
                     throw err

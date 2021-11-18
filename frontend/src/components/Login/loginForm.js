@@ -29,7 +29,7 @@ export default function LoginForm({navigateHandler}) {
         fetch(loginEndpoint,{
             method: 'POST',
             body: JSON.stringify({
-                login_id: enteredLoginId,
+                email: enteredLoginId,
                 password: enteredPassword,
             }),
             headers: {
