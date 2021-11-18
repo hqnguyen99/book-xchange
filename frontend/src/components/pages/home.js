@@ -1,5 +1,6 @@
-import React from 'react'
+import React from 'react';
 import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy } from 'react-table'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 
 const Styles = styled.div`
@@ -59,11 +60,6 @@ function GlobalFilter({
             />
         </span>
     )
-}
-
-function submitClick(value) {
-    console.log(value);
-    //write the further functionality
 }
 
 function Table({ columns, data, getRowProps = () => ({}) }) {
@@ -149,11 +145,6 @@ export default function Home() {
                         accessor: 'order',
                         sortType: 'alphanumeric',
                     },
-                    {
-                        Header: 'Info',
-                        accessor: 'info',
-                        Cell: props => <button onClick={() => submitClick(props.value)}>Buy</button>
-                    },
                 ],
             },
         ],
@@ -204,18 +195,24 @@ export default function Home() {
         []
     )
 
+    const navigate = useNavigate();
+
+    const toInfoPage=(data)=>{
+        navigate('/info',{state:data});
+    }
+
     return (
         <Styles>
-          <Table
-            columns={columns}
-            data={data}
-            getRowProps={row => ({
-              onClick: () => alert(JSON.stringify(row.values)),
-              style: {
-                cursor: "pointer"
-              }
-            })}
-          />
+            <Table
+                columns={columns}
+                data={data}
+                getRowProps={row => ({
+                    onClick: () => toInfoPage(row.values),
+                    style: {
+                        cursor: "pointer"
+                    }
+                })}
+            />
         </Styles>
     );
 }
