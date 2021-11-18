@@ -1,16 +1,21 @@
-import pg from 'pg'
-const {Pool} = pg
+import mysql from 'mysql'
 
 const db_config = {
-    user: 'mehtab',
-    password: 'pass',
-    host: 'localhost',
-    port: '5432',
-    database: 'cmpt474'
+    user: 'admin',
+    password: '123456789',
+    host: 'userdatabase.c5pzwtvhuslw.us-east-1.rds.amazonaws.com',
+    port: 3306,
+    database: 'UserDB'
 }
 
-const pool_config = process.env.DATABASE_URL ? {connectionString: process.env.DATABASE_URL, ssl:{rejectUnauthorized:false}} : db_config
+const db_connection = mysql.createConnection(db_config)
 
-const pool = new Pool(pool_config)
+db_connection.connect(function(err) {
+    if (err) {
+      return console.error('error: ' + err.message);
+    }
+  
+    console.log('Connected to the MySQL server.');
+  });
 
-export default pool
+  export default db_connection

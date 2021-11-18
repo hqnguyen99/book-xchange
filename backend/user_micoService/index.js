@@ -8,7 +8,7 @@ import authRouter from './routes/authorization.js'
 dotenv.config();
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 80
 const corsOpts = {crendentials:true, origin: process.env.URL || '*'}
 
 app.use(cookieParser())
@@ -20,4 +20,4 @@ app.use(json())
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
 
-app.listen(80, ()=>{console.log(`server is listening on ${PORT}`)})
+app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})
