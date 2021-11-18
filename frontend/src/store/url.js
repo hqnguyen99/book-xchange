@@ -1,4 +1,4 @@
-const url= 'https://main.d3v076axa2xkav.amplifyapp.com';
+const url= '';
 const Url= {
     
     login_url: url + '/auth/login',
