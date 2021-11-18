@@ -1,5 +1,5 @@
 import express from 'express'
-import pool from '../qurries.js'
+import db_connection from '../qurries.js'
 import bcrypt from 'bcrypt'
 import {verifyToken} from './verify_token.js'
 
@@ -7,8 +7,11 @@ const router = express.Router();
 
 router.get('/all', verifyToken, async (req, res) => {
     try{
-        var users = await pool.query('SELECT * FROM users')
-        res.json({users: users.rows})
+        var users = await db_connection.query('SELECT * FROM UserInfo', function (err, result) {
+            if (err) throw err;
+            else
+                res.json({users: result})
+          });
     } catch (error){
         res.status(500).json({error:error.message})
     }
@@ -17,9 +20,13 @@ router.get('/all', verifyToken, async (req, res) => {
 router.post('/signup', async (req, res)=> {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const newUser = await pool.query('INSERT INTO users (name, lastName, email, phone, password) VALUES ($1, $2, $3, $4, $5) RETURNING *', 
-            [req.body.name, req.body.lastName, req.body.email, req.body.phone, hashedPassword])
-            res.json({message:'Success'})
+        const newUser = await db_connection.query('INSERT INTO UserInfo (login_id, password, email, first_name, last_name, address, postal_code) VALUES ?',
+            [[['abcd', hashedPassword, req.body.email, req.body.first_name, req.body.last_name, req.body.address, req.body.postal_code]]], 
+            function (err, result){
+                if(err)
+                    throw err
+                res.json({message:'Success'})
+            })
     }catch (error){
         res.status(500).json({error:error.message})
     }
