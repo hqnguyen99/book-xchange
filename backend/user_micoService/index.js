@@ -1,9 +1,7 @@
-import express, {json}  from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-import {dirname, join} from 'path';
-import { fileURLToPath } from 'url';
+import express, {json}  from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 import userRouter from './routes/userRoutes.js'
 import authRouter from './routes/authorization.js'
 
@@ -19,8 +17,7 @@ app.use(cookieParser())
 app.use(cors(corsOpts))
 app.use(json())
 
-// app.use('/', "Satnam ji")
-app.use('/users/all', userRouter)
+app.use('/user', userRouter)
 app.use('/auth', authRouter)
 
-app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})
+app.listen(80, ()=>{console.log(`server is listening on ${PORT}`)})
