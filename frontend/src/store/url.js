@@ -1,7 +1,8 @@
-
+const url= '0:3000';
 const Url= {
-    login_url: '0:3000/auth/login',
-    signup_url:'0:3000/user/signup',
-    refreshToken_url: '0:3000/auth/refreshToken'
+    
+    login_url: url+ '/auth/login',
+    signup_url:url+ '/user/signup',
+    refreshToken_url: url+ '/auth/refreshToken'
 };
 export default Url;

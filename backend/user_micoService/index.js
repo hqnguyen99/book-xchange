@@ -8,7 +8,7 @@ import authRouter from './routes/authorization.js'
 dotenv.config();
 
 const app = express()
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 3000
 const corsOpts = {crendentials:true, origin: process.env.URL || '*'}
 
 app.use(cookieParser())
