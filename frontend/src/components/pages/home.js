@@ -117,17 +117,6 @@ function Table({ columns, data, getRowProps = () => ({}) }) {
 }
 
 export default function Home() {
-    const authCtx= useContext(AuthContext);
-    /* useEffect(()=>{
-        fetch(Url.home_url,{
-            method: 'GET',
-            headers : {
-                'Content-Type': 'application/json',
-                'authorization': 'Bearer'+ authCtx.accessToken
-            }
-        }).then
-        
-    }) */
     const columns = React.useMemo(
         () => [
             {
@@ -220,7 +209,7 @@ export default function Home() {
                 columns={columns}
                 data={data}
                 getRowProps={row => ({
-                    onClick: () => toInfoPage(row.values),
+                    onClick: () => toInfoPage(JSON.stringify(row.values)),
                     style: {
                         cursor: "pointer"
                     }
