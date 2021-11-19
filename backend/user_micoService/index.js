@@ -19,5 +19,8 @@ app.use(json())
 
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })
 
 app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})
