@@ -1,9 +1,9 @@
 import express from 'express'
-import pool from '../qurries.js'
+import db_connection from '../qurries.js'
 import bcrypt, { hash } from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { getUsers } from '../../queries.js'
 import {getTokens} from './jwt.js'
+import mysql from 'mysql'
 
 const router = express.Router()
 
@@ -11,21 +11,27 @@ router.post('/login', async (req, res) => {
     try {
         
         const {email, password} = req.body
-        const user= await pool.query('SELECT * FROM users WHERE email = $1', [email])
-        console.log(user.rows.length)
-        if(user.rows.length === 0 ){
-            console.log("haha " + user.rows.length)
-            return res.status(401).json({error: "Email not found"})
-        }else{
-            var is_pass = await bcrypt.compare(password, user.rows[0].password)
-            if(is_pass){
-                var tokens = getTokens(user.rows[0].email, user.rows[0].phone)
-                res.cookie('refreshToken', tokens.refresh_token)
-                return res.json({'accessToken' : tokens.access_token, 'refreshToken': tokens.refresh_token})
+        
+        await db_connection.query('SELECT * FROM UserInfo WHERE email =' +  mysql.escape(email), async function(err, user){
+            if(err)
+                throw err
+            console.log(user[0].email)
+            if(user.length === 0 ){
+                console.log("haha " + user.rows.length)
+                return res.status(401).json({error: "Email not found"})
             }else{
-                return res.status(401).json({error: "Incorrect Password"})
+                var is_pass = await bcrypt.compare(password, user[0].password)
+                if(is_pass){
+                    var tokens = getTokens(user[0].email, user[0].login_id)
+                    res.cookie('refreshToken', tokens.refresh_token)
+                    return res.json({'accessToken' : tokens.access_token, 'refreshToken': tokens.refresh_token})
+                }else{
+                    return res.status(401).json({error: "Incorrect Password"})
+                }
             }
-        }
+
+            return result
+        })
             
     }catch (error){
         res.status(401).json({error : error.message})

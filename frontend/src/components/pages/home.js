@@ -1,7 +1,9 @@
 import React from 'react';
-import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy } from 'react-table'
+import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy,useEffect,useContext } from 'react-table'
 import { useNavigate } from 'react-router-dom';
+import Url from '../../store/url';
 import styled from 'styled-components'
+import AuthContext from '../../store/auth-context';
 
 const Styles = styled.div`
  table {
@@ -115,6 +117,17 @@ function Table({ columns, data, getRowProps = () => ({}) }) {
 }
 
 export default function Home() {
+    const authCtx= useContext(AuthContext);
+    /* useEffect(()=>{
+        fetch(Url.home_url,{
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/json',
+                'authorization': 'Bearer'+ authCtx.accessToken
+            }
+        }).then
+        
+    }) */
     const columns = React.useMemo(
         () => [
             {
