@@ -207,7 +207,7 @@ export default function Home() {
                 columns={columns}
                 data={data}
                 getRowProps={row => ({
-                    onClick: () => toInfoPage(row.values),
+                    onClick: () => toInfoPage(JSON.stringify(row.values)),
                     style: {
                         cursor: "pointer"
                     }
