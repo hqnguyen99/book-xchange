@@ -8,6 +8,7 @@ import axios from 'axios'
 
 export default function BuyPage() {
     const location = useLocation();
+    const obj = JSON.parse(location.state);
     return (
         <Container>
             <Grid>
@@ -16,9 +17,9 @@ export default function BuyPage() {
                         <Header>INFO</Header>
                         <List>
                             <List.Content>
-                                {location.state.name}
+                                {obj.name}
                             </List.Content>
-                            <List.Content>{location.state.address}</List.Content>
+                            <List.Content>{obj.address}</List.Content>
                         </List>
                     </Grid.Column>
                 </Grid.Row>
