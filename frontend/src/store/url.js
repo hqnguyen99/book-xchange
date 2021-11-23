@@ -1,4 +1,4 @@
-const url= 'http://34.201.55.118:80';
+const url= 'http://secondhandbookstore-env-1.eba-mzngembx.us-east-1.elasticbeanstalk.com';
 const Url= {
     home_url: '',
     login_url: url + '/auth/login',
