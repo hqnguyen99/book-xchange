@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import SellForm from "../Sell/SellForm";
+import SellForm from "../Sell/Sell";
 
 export default function SellPage(){
     const history = useNavigate()
