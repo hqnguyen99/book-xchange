@@ -14,13 +14,18 @@ router.post('/login', async (req, res) => {
         
         await db_connection.query('SELECT * FROM UserInfo WHERE email =' +  mysql.escape(email), async function(err, user){
             if(err)
-                throw err
-            console.log(user[0].email)
+                return res.status(401).json({error: err.message})
+            console.log(user[0].password)
             if(user.length === 0 ){
-                console.log("haha " + user.rows.length)
-                return res.status(401).json({error: "Email not found"})
+                return res.status(401).json({error: "User not found"})
             }else{
-                var is_pass = await bcrypt.compare(password, user[0].password)
+                var is_pass = false
+                try{
+                    is_pass = await bcrypt.compare(password, user[0].password)
+
+                }catch (error){
+                    return res.status(401).json({error: "bcrypt error"})
+                }
                 if(is_pass){
                     var tokens = getTokens(user[0].email, user[0].login_id)
                     res.cookie('refreshToken', tokens.refresh_token)
@@ -30,7 +35,6 @@ router.post('/login', async (req, res) => {
                 }
             }
 
-            return result
         })
             
     }catch (error){

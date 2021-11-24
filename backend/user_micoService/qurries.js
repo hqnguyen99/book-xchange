@@ -8,18 +8,6 @@ const db_config = {
     database: 'UserDB'
 }
 
-// const db_connection = mysql.createConnection(db_config)
-
-// db_connection.connect(function(err) {
-//     if (err) {
-//       return console.error('error: ' + err.message);
-//     }
-  
-//     console.log('Connected to the MySQL server.');
-//   });
-
-
-
 var db_connection;
   function connectToDb(callback) {
     const attemptConnection = () => {
