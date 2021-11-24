@@ -3,7 +3,7 @@ import mysql from 'mysql'
 const db_config = {
     user: 'admin',
     password: '123456789',
-    host: 'bookdatabase.c23wqpytrs3b.us-east-1.rds.amazonaws.com',
+    host: '',
     port: 3306,
     database: 'BookDB'
 }
