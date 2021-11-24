@@ -1,40 +1,77 @@
 import express from 'express'
-import db_connection from '../user_db.js'
-import bcrypt from 'bcrypt'
 import {verifyToken} from './verify_token.js'
+import http from 'http'
 
 const router = express.Router();
 
 router.get('/all', verifyToken, async (req, res) => {
-    try{
-        var users = await db_connection.query('SELECT * FROM UserInfo', function (err, result) {
-            if (err){
-                return res.json({error: "sql call error"})
-            }
-            else
-                return res.json({users: result})
-          });
-    } catch (error){
-        res.status(500).json({error:error.message})
-    }
+
+    const options = {
+        hostname: 'localhost',
+        port: 3000,
+        path: '/user/all',
+        method: 'GET'
+      }
+      let data = []
+    const req1 = http.request(options, res1 => {
+        console.log(`statusCode: ${res.statusCode}`)
+            res1.on('data', d => {
+                data.push(d)
+            })
+            res1.on('end', ()=>{
+                console.log(Buffer.concat(data).toString())
+                return res.status(200).json(JSON.parse(Buffer.concat(data).toString()))
+            })
+        })
+    req1.on('error', errorr => {
+        return res.status(500).json({error: errorr.message})
+    })
+    console.log(data)
+    req1.end()
+    
 })
 
 router.post('/signup', async (req, res)=> {
-    try{
-        const hashedPassword  = await bcrypt.hash(req.body.password, 10)
-        const newUser = await db_connection.query('INSERT INTO UserInfo (login_id, password, email, first_name, last_name, address, postal_code) VALUES ?',
-            [[[req.body.login_id, hashedPassword, req.body.email, req.body.first_name, req.body.last_name, req.body.address, req.body.postal_code]]], 
-            function (err, result){
-                if(err)
-                    return res.json({error: err.message})
-                console.log("New user added for login_id - > " + req.body.login_id)
-                return res.json({message:'Success'})
+    const data = new TextEncoder().encode(
+        JSON.stringify({
+            login_id: req.body.login_id,
+            password : req.body.password,
+            email : req.body.email,
+            first_name : req.body.first_name,
+            last_name : req.body.last_name,
+            address : req.body.address,
+            postal_code : req.body.postal_code
+        })
+      )
+      
+      const options = {
+        hostname: 'localhost',
+        port: 3000,
+        path: '/user/signup',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      var data1 = []
+      const req1 = http.request(options, res1 => {
+        console.log(`statusCode: ${res.statusCode}`)
+      
+        res1.on('data', d => {
+            data1.push(d)
+            res1.on('end', ()=>{
+                console.log(Buffer.concat(data1).toString())
+                return res.status(200).json(JSON.parse(Buffer.concat(data1).toString()))
             })
-    }catch (error){
-        console.log(error)
-        return res.status(500).json({error:error.message})
-        
-    }
+        })
+      })
+      
+      req1.on('error', error => {
+        return res.status(500).json({error: errorr.message})
+      })
+      
+      req1.write(data)
+      req1.end()
 })
 
 export default router

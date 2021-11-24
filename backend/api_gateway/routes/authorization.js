@@ -1,9 +1,9 @@
 import express from 'express'
-import db_connection from '../user_db.js'
 import bcrypt, { hash } from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import {getTokens} from './jwt.js'
 import mysql from 'mysql'
+import db_connection from '../qurries.js'
 
 const router = express.Router()
 

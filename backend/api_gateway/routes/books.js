@@ -1,40 +1,104 @@
 import express from 'express'
-import db_connection from '../book_db.js'
 import {verifyToken} from './verify_token.js'
+import http from 'http'
 
 const router = express.Router();
 
 router.get('/allBooks', verifyToken, async (req, res) => {
-    try{
-        var books = await db_connection.query("select * from book_info", function (err, result) {
-            if (err){
-                return res.json({error: err.message})
-            }
-            else
-                return res.json({books: result})
-          });
-
-        
-    } catch (error){
-        res.status(500).json({error:error.message})
-    }
+    const options = {
+        hostname: 'localhost',
+        port: 3300,
+        path: '/books/allBooks',
+        method: 'GET'
+      }
+      let data = []
+    const req1 = http.request(options, res1 => {
+        console.log(`statusCode: ${res.statusCode}`)
+            res1.on('data', d => {
+                data.push(d)
+            })
+            res1.on('end', ()=>{
+                console.log('returned allBooks')
+                return res.status(200).json(JSON.parse(Buffer.concat(data).toString()))
+            })
+        })
+    req1.on('error', errorr => {
+        return res.status(500).json({error: errorr.message})
+    })
+    console.log(data)
+    req1.end()
 })
 
 router.post('/addBook', verifyToken, async (req, res) => {
-    try{
-        const newUser = await db_connection.query('INSERT INTO book_info (isbn, title, author, edition, publisher, seller_id, price) VALUES ?',
-            [[[req.body.isbn, req.body.title, req.body.author, req.body.edition, req.body.publisher, req.body.seller_id, req.body.price]]], 
-            function (err, result){
-                if(err)
-                    return res.json({error: err.message})
-                console.log("New book added for title - > " + req.body.title)
-                return res.json({message:'Success'})
+    const data = new TextEncoder().encode(
+        JSON.stringify({
+            isbn : req.body.isbn,
+            title : req.body.title,
+            author : req.body.author,
+            edition : req.body.edition,
+            publisher : req.body.publisher,
+            seller_id : req.body.seller_id,
+            price: req.body.price
+        })
+      )
+      
+      const options = {
+        hostname: 'localhost',
+        port: 3300,
+        path: '/books/addBook',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      var data1 = []
+      const req1 = http.request(options, res1 => {
+        console.log(`statusCode: ${res.statusCode}`)
+      
+        res1.on('data', d => {
+            data1.push(d)
+            res1.on('end', ()=>{
+                console.log('added book with title ' + req.body.title)
+                return res.status(200).json(JSON.parse(Buffer.concat(data1).toString()))
             })
-
-        
-    } catch (error){
-        res.status(500).json({error:error.message})
-    }
+        })
+      })
+      
+      req1.on('error', error => {
+        return res.status(500).json({error: errorr.message})
+      })
+      
+      req1.write(data)
+      req1.end()
 })
 
+router.get('/byID', verifyToken, async (req, res)=>{
+    console.log(req.headers['id'])
+    const options = {
+        hostname: 'localhost',
+        port: 3300,
+        path: '/books/byID',
+        method: 'GET',
+        headers: {
+            'id' : req.headers['id']
+        }
+      }
+    let data = []
+    const req1 = http.request(options, res1 => {
+        console.log(`statusCode: ${res.statusCode}`)
+            res1.on('data', d => {
+                data.push(d)
+            })
+            res1.on('end', ()=>{
+                console.log('returned book byID')
+                return res.status(200).json(JSON.parse(Buffer.concat(data).toString()))
+            })
+        })
+    req1.on('error', errorr => {
+        return res.status(500).json({error: errorr.message})
+    })
+    console.log(data)
+    req1.end()
+    
+})
 export default router

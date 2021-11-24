@@ -15,6 +15,6 @@ app.use(cookieParser())
 app.use(cors(corsOpts))
 app.use(json())
 
-app.use('/books/all', listBooksRouter)
+app.use('/books', listBooksRouter)
 
 app.listen(3300, ()=>{console.log(`server is listening on ${PORT}`)})

@@ -8,7 +8,6 @@ const db_config = {
     database: 'BookDB'
 }
 
-
 var db_connection;
   function connectToDb(callback) {
     const attemptConnection = () => {

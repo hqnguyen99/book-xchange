@@ -3,7 +3,6 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import userRouter from './routes/userRoutes.js'
-import authRouter from './routes/authorization.js'
 
 dotenv.config();
 
@@ -18,9 +17,5 @@ app.use(cors(corsOpts))
 app.use(json())
 
 app.use('/user', userRouter)
-app.use('/auth', authRouter)
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-  })
 
 app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})

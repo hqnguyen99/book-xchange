@@ -28,6 +28,6 @@ var db_connection;
   }
 
   connectToDb(() => {
-      console.log("Connected to User DB");
+      console.log("Connected to DB");
   });
   export default db_connection
