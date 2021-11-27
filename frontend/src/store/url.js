@@ -5,6 +5,7 @@ const Url= {
     home_url: '',
     login_url: url + '/auth/login',
     signup_url: url + '/user/signup',
-    refreshToken_url: url+ '/auth/refreshToken'
+    refreshToken_url: url+ '/auth/refreshToken',
+    book_url: url + '/books/allBooks'
 };
 export default Url;

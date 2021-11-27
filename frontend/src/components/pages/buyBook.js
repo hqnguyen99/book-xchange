@@ -1,14 +1,21 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Grid, Header, List } from "semantic-ui-react";
-import styled from 'styled-components'
-import SellButton from '../button/SellButton'
 import axios from 'axios'
 
 
 export default function BuyPage() {
     const location = useLocation();
     const obj = JSON.parse(location.state);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const result = await axios("https://jsonplaceholder.typicode.com/users/1");
+            setData(result.data);
+        })();
+    }, []);
+
     return (
         <Container>
             <Grid>
@@ -16,10 +23,7 @@ export default function BuyPage() {
                     <Grid.Column>
                         <Header>INFO</Header>
                         <List>
-                            <List.Content>
-                                {obj.name}
-                            </List.Content>
-                            <List.Content>{obj.address}</List.Content>
+                        {data.email}
                         </List>
                     </Grid.Column>
                 </Grid.Row>
