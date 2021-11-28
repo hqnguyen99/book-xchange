@@ -16,8 +16,8 @@ const MiddleOfPage = styled.div`
 `;
 
 export default function SellForm({ navigateHandler }) {
-  var BookEndpoint = Url.book_url;
-  console.log(BookEndpoint)
+  var signupEndpoint = Url.signup_url; //need to change
+  console.log(signupEndpoint)
   const bookNameInputRef = useRef();
   const bookISBNInputRef = useRef();
   const bookInfoInputRef = useRef();
@@ -36,7 +36,7 @@ export default function SellForm({ navigateHandler }) {
     const enteredPhone = phoneInputRef.current.value;
     const enteredPrice = priceInputRef.current.value;
     const enteredPostalCode = postalCodeInputRef.current.value;
-    fetch(BookEndpoint, {
+    fetch(signupEndpoint, {
       method: 'POST',
       body: JSON.stringify({
         book_name: enteredName,
@@ -65,7 +65,7 @@ export default function SellForm({ navigateHandler }) {
       }
     })
       .then((data) => {
-        authCtx.login(data.accessToken) //need to check again
+        authCtx.login(data.accessToken)
         navigateHandler()
       })
       .catch((err) => {
