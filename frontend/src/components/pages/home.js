@@ -1,97 +1,186 @@
-import React from 'react';
-import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy,useEffect,useContext } from 'react-table'
+import React, { useMemo, useState, useEffect } from "react";
+import { useTable, useFilters, useSortBy } from "react-table";
 import { useNavigate } from 'react-router-dom';
-import Url from '../../store/url';
+import axios from "axios";
 import styled from 'styled-components'
-import AuthContext from '../../store/auth-context';
 
 const Styles = styled.div`
- table {
-   border-spacing: 0;
-   border: 1px solid black;
-
-   tr {
-     :last-child {
-       td {
-         border-bottom: 0;
-       }
-     }
-   }
-
-   th,
-   td {
-     padding: 0.5rem;
-     border-bottom: 1px solid black;
-     border-right: 1px solid black;
-
-     :last-child {
-       border-right: 0;
-     }
-   }
+table {
+    border-spacing: 0;
+    border: 1px solid #ededed;
+  }
+  table tr:last-child td {
+    border-bottom: 0;
+  }
+  table th,
+  table td {
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+    position: relative;
+  }
+  table th:last-child,
+  table td:last-child {
+    border-right: 0;
+  }
+  table tr:nth-child(even) {
+    background-color: #fafafa;
+  }
   
-   th {
-     background: orange;
-     border-bottom: 2px solid black;
-     color: white;
-     fontWeight: bold;
-   }
- }
-`
+  table th::before {
+    position: absolute;
+    right: 15px;
+    top: 16px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+  table th.sort-asc::before {
+    border-bottom: 5px solid #22543d;
+  }
+  table th.sort-desc::before {
+    border-top: 5px solid #22543d;
+  }
+  
+  .App {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .badge {
+    background-color: #9ae6b4;
+    color: #22543d;
+    margin-right: 4px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  input {
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+  `
 
-function GlobalFilter({
-    preGlobalFilteredRows,
-    globalFilter,
-    setGlobalFilter,
-}) {
-    const count = preGlobalFilteredRows.length
-    const [value, setValue] = React.useState(globalFilter)
-    const onChange = useAsyncDebounce(value => {
-        setGlobalFilter(value || undefined)
-    }, 200)
+export default function Home() {
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: 'Book\'s ID',
+                accessor: 'id',
+                sortType: 'alphanumeric',
+            },
+            {
+                Header: 'Book\'s Name',
+                accessor: 'name',
+                sortType: 'alphanumeric',
+            },
+            {
+                Header: 'Book\'s ISBN',
+                accessor: 'phone',
+                sortType: 'alphanumeric',
+            },
+            {
+                Header: 'Book\'s Price',
+                accessor: 'website',
+                sortType: 'alphanumeric',
+            },
+        ],
+    )
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const result = await axios("https://jsonplaceholder.typicode.com/users", {
+                headers: {
+                    //Authorization : Bearer 'the acess token u get from login'
+                }
+            });
+            setData(result.data);
+        })();
+    }, []);
+
+    const navigate = useNavigate();
+
+    const toInfoPage = (data) => {
+        navigate('/info', { state: data });
+    }
 
     return (
-        <span>
-            Search:{' '}
-            <input
-                value={value || ""}
-                onChange={e => {
-                    setValue(e.target.value);
-                    onChange(e.target.value);
-                }}
-                placeholder={`${count} records...`}
+        <Styles>
+            <Table
+                columns={columns}
+                data={data}
+                getRowProps={row => ({
+                    onClick: () => toInfoPage(JSON.stringify(row.values)),
+                    style: {
+                        cursor: "pointer"
+                    }
+                })}
             />
-        </span>
-    )
+        </Styles>
+    );
 }
 
-function Table({ columns, data, getRowProps = () => ({}) }) {
-    const { getTableProps, headerGroups, rows, prepareRow, state, preGlobalFilteredRows, setGlobalFilter, } =
-        useTable(
-            {
-                columns,
-                data,
-            },
-            useGlobalFilter,
-            useSortBy,
-        )
 
+
+function Table({ columns, data, getRowProps = () => ({}) }) {
+    const [filterInput, setFilterInput] = useState("");
+    // Use the state and functions returned from useTable to build your UI
+    const {
+        getTableProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        setFilter
+    } = useTable(
+        {
+            columns,
+            data
+        },
+        useFilters,
+        useSortBy
+    );
+
+    const handleFilterChange = e => {
+        const value = e.target.value || undefined;
+        setFilter("name", value);
+        setFilterInput(value);
+    };
+
+    // Render the UI for your table
     return (
         <>
-            <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
+            <input
+                value={filterInput}
+                onChange={handleFilterChange}
+                placeholder={"Search name"}
             />
             <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                    {column.render('Header')}
-                                    <span>
-                                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                                    </span>
+                                <th
+                                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                                    className={
+                                        column.isSorted
+                                            ? column.isSortedDesc
+                                                ? "sort-desc"
+                                                : "sort-asc"
+                                            : ""
+                                    }
+                                >
+                                    {column.render("Header")}
                                 </th>
                             ))}
                         </tr>
@@ -113,108 +202,5 @@ function Table({ columns, data, getRowProps = () => ({}) }) {
                 </tbody>
             </table>
         </>
-    )
-}
-
-export default function Home() {
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'User Info',
-                columns: [
-                    {
-                        Header: 'Name',
-                        accessor: 'name',
-                        sortType: 'alphanumeric',
-                    },
-                    {
-                        Header: 'Address',
-                        accessor: 'address',
-                        sortType: 'alphanumeric',
-                    },
-                ],
-            },
-            {
-                Header: 'Order Info',
-                columns: [
-                    {
-                        Header: 'Date',
-                        accessor: 'date',
-                        sortType: 'alphanumeric',
-                    },
-                    {
-                        Header: 'Order #',
-                        accessor: 'order',
-                        sortType: 'alphanumeric',
-                    },
-                ],
-            },
-        ],
-        []
-    )
-
-    const data = React.useMemo(() =>
-        [
-            {
-                name: 'Kim Parrish',
-                address: '4420 Valley Street, Garnerville, NY 10923',
-                date: '07/11/2020',
-                order: '87349585892118',
-            },
-            {
-                name: 'Michele Castillo',
-                address: '637 Kyle Street, Fullerton, NE 68638',
-                date: '07/11/2020',
-                order: '58418278790810',
-            },
-            {
-                name: 'Eric Ferris',
-                address: '906 Hart Country Lane, Toccoa, GA 30577',
-                date: '07/10/2020',
-                order: '81534454080477',
-            },
-            {
-                name: 'Gloria Noble',
-                address: '2403 Edgewood Avenue, Fresno, CA 93721',
-                date: '07/09/2020',
-                order: '20452221703743',
-            },
-            {
-                name: 'Darren Daniels',
-                address: '882 Hide A Way Road, Anaktuvuk Pass, AK 99721',
-                date: '07/07/2020',
-                order: '22906126785176',
-            },
-            {
-                name: 'Ted McDonald',
-                address: '796 Bryan Avenue, Minneapolis, MN 55406',
-                date: '07/07/2020',
-                order: '87574505851064',
-                info: 'sdfsdfsdfsdf',
-                a: 'eefdfs',
-            },
-        ],
-        []
-    )
-
-    const navigate = useNavigate();
-
-    const toInfoPage=(data)=>{
-        navigate('/info',{state:data});
-    }
-
-    return (
-        <Styles>
-            <Table
-                columns={columns}
-                data={data}
-                getRowProps={row => ({
-                    onClick: () => toInfoPage(JSON.stringify(row.values)),
-                    style: {
-                        cursor: "pointer"
-                    }
-                })}
-            />
-        </Styles>
     );
 }
