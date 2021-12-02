@@ -4,10 +4,11 @@ import mysql from 'mysql'
 
 const router = express.Router();
 
-router.get('/allBooks', async (req, res) => {
+router.get('/all', async (req, res) => {
     try{
         var books = await db_connection.query("select * from book_info", function (err, result) {
             if (err){
+                console.log(error)
                 return res.json({error: err.message})
             }
             else
