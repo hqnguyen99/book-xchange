@@ -45,10 +45,22 @@ export default function BuyPage() {
                             <p><h1>BOOK's INFO</h1></p>
                             <List>
                                 <List.Content>
-                                    <p><i><u>Email</u></i>: {data.email}</p>
+                                    <p><i><u>Name</u></i>: {data.title}</p>
                                 </List.Content>
                                 <List.Content>
-                                    <p><i><u>Username</u></i>: {data.username}</p>
+                                    <p><i><u>Author</u></i>: {data.author}</p>
+                                </List.Content>
+                                <List.Content>
+                                    <p><i><u>Edition</u></i>: {data.edition}</p>
+                                </List.Content>
+                                <List.Content>
+                                    <p><i><u>ISBN</u></i>: {data.isbn}</p>
+                                </List.Content>
+                                <List.Content>
+                                    <p><i><u>Publisher</u></i>: {data.publisher}</p>
+                                </List.Content>
+                                <List.Content>
+                                    <p><i><u>Price</u></i>: {data.price}</p>
                                 </List.Content>
                             </List>
                         </Grid.Column>
