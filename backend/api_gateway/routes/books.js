@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/allBooks', verifyToken, async (req, res) => {
     const options = {
-        hostname: 'localhost',
+        hostname: 'EC2Co-EcsEl-IOMSFA68GT8U-758619912.us-east-1.elb.amazonaws.com',
         port: 3300,
         path: '/books/allBooks',
         method: 'GET'
@@ -43,7 +43,7 @@ router.post('/addBook', verifyToken, async (req, res) => {
       )
       
       const options = {
-        hostname: 'localhost',
+        hostname: 'EC2Co-EcsEl-IOMSFA68GT8U-758619912.us-east-1.elb.amazonaws.com',
         port: 3300,
         path: '/books/addBook',
         method: 'POST',
@@ -75,7 +75,7 @@ router.post('/addBook', verifyToken, async (req, res) => {
 router.get('/byID', verifyToken, async (req, res)=>{
     console.log(req.headers['id'])
     const options = {
-        hostname: 'localhost',
+        hostname: 'EC2Co-EcsEl-IOMSFA68GT8U-758619912.us-east-1.elb.amazonaws.com',
         port: 3300,
         path: '/books/byID',
         method: 'GET',

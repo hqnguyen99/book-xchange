@@ -7,8 +7,8 @@ const router = express.Router();
 router.get('/all', verifyToken, async (req, res) => {
 
     const options = {
-        hostname: 'localhost',
-        port: 3000,
+        hostname: 'EC2Co-EcsEl-IOMSFA68GT8U-758619912.us-east-1.elb.amazonaws.com',
+        port: 5000,
         path: '/user/all',
         method: 'GET'
       }
@@ -45,8 +45,8 @@ router.post('/signup', async (req, res)=> {
       )
       
       const options = {
-        hostname: 'localhost',
-        port: 3000,
+        hostname: 'EC2Co-EcsEl-IOMSFA68GT8U-758619912.us-east-1.elb.amazonaws.com',
+        port: 5000,
         path: '/user/signup',
         method: 'POST',
         headers: {

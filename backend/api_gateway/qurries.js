@@ -3,7 +3,7 @@ import mysql from 'mysql'
 const db_config = {
     user: 'admin',
     password: '123456789',
-    host: '',
+    host: 'userdb.cgjdqnzpl8at.us-east-1.rds.amazonaws.com',
     port: 3306,
     database: 'UserDB'
 }
@@ -11,12 +11,12 @@ const db_config = {
 var db_connection;
   function connectToDb(callback) {
     const attemptConnection = () => {
-      console.log('Attempting to connect to db')
+      console.log('Attempting to connect to User db from api_gateway')
       db_config.connectTimeout = 2000 // same as setTimeout to avoid server overload 
       db_connection = mysql.createConnection(db_config)
       db_connection.connect(function (err) {
         if (err) {
-          console.log('Error connecting to database, try again in 1 sec...')
+          console.log('Error connecting to User db from api_gateway, try again in 1 sec...')
           db_connection.destroy() // end immediately failed connection before creating new one
           setTimeout(attemptConnection, 2000)
         } else {
@@ -28,6 +28,6 @@ var db_connection;
   }
 
   connectToDb(() => {
-      console.log("Connected to DB");
+      console.log("Connected to User db from api_gateway");
   });
   export default db_connection
