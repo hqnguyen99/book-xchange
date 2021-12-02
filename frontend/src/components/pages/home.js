@@ -1,8 +1,10 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useTable, useFilters, useSortBy } from "react-table";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import styled from 'styled-components'
+import AuthContext from '../../store/auth-context';
+import SellButton from '../button/SellButton';
 
 const Styles = styled.div`
 table {
@@ -70,7 +72,19 @@ table {
   }
   `
 
+const MiddleOfPage = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`;
+
 export default function Home() {
+    const authCtx = useContext(AuthContext)
     const columns = React.useMemo(
         () => [
             {
@@ -102,7 +116,7 @@ export default function Home() {
         (async () => {
             const result = await axios("https://jsonplaceholder.typicode.com/users", {
                 headers: {
-                    //Authorization : Bearer 'the acess token u get from login'
+                    Authorization: "Bearer" + authCtx.accessToken
                 }
             });
             setData(result.data);
@@ -116,18 +130,21 @@ export default function Home() {
     }
 
     return (
-        <Styles>
-            <Table
-                columns={columns}
-                data={data}
-                getRowProps={row => ({
-                    onClick: () => toInfoPage(JSON.stringify(row.values)),
-                    style: {
-                        cursor: "pointer"
-                    }
-                })}
-            />
-        </Styles>
+        <MiddleOfPage>
+            <Styles>
+                <Table
+                    columns={columns}
+                    data={data}
+                    getRowProps={row => ({
+                        onClick: () => toInfoPage(JSON.stringify(row.values)),
+                        style: {
+                            cursor: "pointer"
+                        }
+                    })}
+                />
+                <SellButton type="submit" title="Sign Up"></SellButton>
+            </Styles>
+        </MiddleOfPage>
     );
 }
 

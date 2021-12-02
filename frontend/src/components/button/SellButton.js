@@ -40,6 +40,6 @@ const Button=styled.button`
 export default function SellButton(){
     const history = useNavigate()
     return (
-        <Button className="primary" onClick={()=>history('/')}>Submit</Button>
+        <Button className="primary" onClick={()=>history('/sell')}>Sell Book</Button>
     )
 }

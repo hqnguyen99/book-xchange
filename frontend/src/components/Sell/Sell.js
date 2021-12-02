@@ -48,6 +48,7 @@ export default function SellForm({ navigateHandler }) {
         postal_code: enteredPostalCode
       }),
       headers: {
+        'Authorization' : "Bearer" + authCtx.accessToken,
         'Content-Type': 'application/json',
       }
     }).then((res) => {
@@ -65,7 +66,6 @@ export default function SellForm({ navigateHandler }) {
       }
     })
       .then((data) => {
-        authCtx.login(data.accessToken) //need to check again
         navigateHandler()
       })
       .catch((err) => {
@@ -104,9 +104,9 @@ export default function SellForm({ navigateHandler }) {
           <input type="text" id='postal_code' required ref={postalCodeInputRef} />
         </label>
         <div>
-          <ButtonTwo type="submit" title="Sign up"></ButtonTwo>
+          <ButtonTwo type="submit" title="Sell Book"></ButtonTwo>
         </div>
       </form>
-    </MiddleOfPage >
+    </MiddleOfPage>
   )
 }
