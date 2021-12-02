@@ -113,12 +113,14 @@ export default function Home() {
     )
 
     const [data, setData] = useState([]);
-
+        
     useEffect(() => {
         (async () => {
+            console.log(authCtx.accessToken)
             const result = await axios(BookEndpoint, {
                 headers: {
-                    Authorization: "Bearer" + authCtx.accessToken
+
+                    Authorization: "Bearer " + authCtx.accessToken
                 }
             });
             setData(result.data);

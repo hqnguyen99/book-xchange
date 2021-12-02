@@ -22,11 +22,12 @@ export default function LoginForm({ navigateHandler }) {
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext)
 
+
   const handleSubmit = async e => {
     e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    fetch(loginEndpoint, {
+    await fetch(loginEndpoint, {
       method: 'POST',
       body: JSON.stringify({
         email: enteredEmail,
@@ -51,6 +52,7 @@ export default function LoginForm({ navigateHandler }) {
     })
       .then((data) => {
         authCtx.login(data.accessToken);
+        console.log(data);
         navigateHandler()
       })
       .catch((err) => {

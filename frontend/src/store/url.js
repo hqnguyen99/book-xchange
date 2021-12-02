@@ -1,4 +1,4 @@
-const url= 'https://api-gateway-371406776.us-east-1.elb.amazonaws.com:99';
+const url= 'http://api-gateway-371406776.us-east-1.elb.amazonaws.com:99';
 const Url= {
     home_url: '',
     login_url: url + '/auth/login',
