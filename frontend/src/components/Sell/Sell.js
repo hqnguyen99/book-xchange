@@ -16,7 +16,7 @@ const MiddleOfPage = styled.div`
 `;
 
 export default function SellForm({ navigateHandler }) {
-  var BookEndpoint = Url.book_url;
+  var BookEndpoint = Url.add_book;
   console.log(BookEndpoint)
   const bookNameInputRef = useRef();
   const bookISBNInputRef = useRef();
@@ -89,11 +89,11 @@ export default function SellForm({ navigateHandler }) {
         </label>
         <label>
           <p>Book's Edition*</p>
-          <input type="email" id='edition' required ref={editionInputRef} />
+          <input type="text" id='edition' required ref={editionInputRef} />
         </label>
         <label>
           <p>Book's Publisher*</p>
-          <input type="tel" id='publisher' required ref={publisherInputRef} />
+          <input type="text" id='publisher' required ref={publisherInputRef} />
         </label>
         <label>
           <p>Price*</p>
