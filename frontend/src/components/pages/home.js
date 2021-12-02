@@ -119,7 +119,7 @@ export default function Home() {
             console.log(authCtx.accessToken)
             const result = await axios(BookEndpoint, {
                 headers: {
-
+                    "Access-Control-Allow-Origin": "*",
                     Authorization: "Bearer " + authCtx.accessToken
                 }
             });
