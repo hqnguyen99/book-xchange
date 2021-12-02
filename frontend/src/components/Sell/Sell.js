@@ -36,7 +36,7 @@ export default function SellForm({ navigateHandler }) {
     const enteredPublisher = publisherInputRef.current.value;
     const enteredPrice = priceInputRef.current.value;
     const enteredSellerID = sellerIDInputRef.current.value;
-    fetch(BookEndpoint, {
+    await fetch(BookEndpoint, {
       method: 'POST',
       body: JSON.stringify({
         title: enteredName,
@@ -48,7 +48,7 @@ export default function SellForm({ navigateHandler }) {
         seller_id: enteredSellerID
       }),
       headers: {
-        'Authorization' : "Bearer" + authCtx.accessToken,
+        'Authorization' : "Bearer " + authCtx.accessToken,
         'Content-Type': 'application/json',
       }
     }).then((res) => {
