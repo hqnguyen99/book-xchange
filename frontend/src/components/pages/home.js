@@ -5,6 +5,7 @@ import axios from "axios";
 import styled from 'styled-components'
 import AuthContext from '../../store/auth-context';
 import SellButton from '../button/SellButton';
+import Url from '../../store/url';
 
 const Styles = styled.div`
 table {
@@ -84,27 +85,28 @@ const MiddleOfPage = styled.div`
 `;
 
 export default function Home() {
+    var BookEndpoint = Url.book_url;
     const authCtx = useContext(AuthContext)
     const columns = React.useMemo(
         () => [
             {
                 Header: 'Book\'s ID',
-                accessor: 'id',
+                accessor: 'seller_id',
                 sortType: 'alphanumeric',
             },
             {
                 Header: 'Book\'s Name',
-                accessor: 'name',
+                accessor: 'title',
                 sortType: 'alphanumeric',
             },
             {
                 Header: 'Book\'s ISBN',
-                accessor: 'phone',
+                accessor: 'isbn',
                 sortType: 'alphanumeric',
             },
             {
                 Header: 'Book\'s Price',
-                accessor: 'website',
+                accessor: 'price',
                 sortType: 'alphanumeric',
             },
         ],
@@ -114,7 +116,7 @@ export default function Home() {
 
     useEffect(() => {
         (async () => {
-            const result = await axios("https://jsonplaceholder.typicode.com/users", {
+            const result = await axios(BookEndpoint, {
                 headers: {
                     Authorization: "Bearer" + authCtx.accessToken
                 }

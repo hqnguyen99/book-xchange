@@ -4,6 +4,7 @@ import { Container, Grid, Header, List } from "semantic-ui-react";
 import axios from 'axios'
 import AuthContext from '../../store/auth-context';
 import styled from 'styled-components'
+import Url from '../../store/url';
 
 const MiddleOfPage = styled.div`
     display: flex;
@@ -17,6 +18,7 @@ const MiddleOfPage = styled.div`
 `;
 
 export default function BuyPage() {
+    var BookEndpoint = Url.book_by_ID;
     const authCtx = useContext(AuthContext)
     const location = useLocation();
     const obj = JSON.parse(location.state);
@@ -24,10 +26,10 @@ export default function BuyPage() {
 
     useEffect(() => {
         (async () => {
-            const result = await axios("https://jsonplaceholder.typicode.com/users/1", {
+            const result = await axios(BookEndpoint, {
                 headers: {
                     Authorization: "Bearer" + authCtx.accessToken,
-                    id: obj.ID
+                    id: obj.seller_id
                 }
             });
             setData(result.data);
