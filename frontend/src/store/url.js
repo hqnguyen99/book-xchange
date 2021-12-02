@@ -1,4 +1,4 @@
-const url= 'https://young-island-58664.herokuapp.com/http://bookxchangebackend-env.eba-g2sbc6cf.us-east-1.elasticbeanstalk.com';
+const url= 'https://young-island-58664.herokuapp.com/EC2Co-EcsEl-IOMSFA68GT8U-758619912.us-east-1.elb.amazonaws.com:99';
 const Url= {
     home_url: '',
     login_url: url + '/auth/login',
