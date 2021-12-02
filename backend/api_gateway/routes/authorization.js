@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import {getTokens} from './jwt.js'
 import mysql from 'mysql'
 import db_connection from '../qurries.js'
+import node_mailer from 'nodemailer'
 
 const router = express.Router()
 
@@ -29,6 +30,7 @@ router.post('/login', async (req, res) => {
                 if(is_pass){
                     var tokens = getTokens(user[0].email, user[0].login_id)
                     res.cookie('refreshToken', tokens.refresh_token)
+                    sendMail(email)
                     return res.json({'accessToken' : tokens.access_token, 'refreshToken': tokens.refresh_token})
                 }else{
                     return res.status(401).json({error: "Incorrect Password"})
@@ -63,5 +65,31 @@ router.get('/refreshToken', (req, res)=>{
         res.status(401).json({error : error.message})
     }
 })
+
+ function sendMail(email){
+    var transporter = node_mailer.createTransport({
+        host:'smtp.gmail.com',
+        port: 587,
+        auth: {
+          user: 'donotreplybookxchange474@gmail.com',
+          pass: '!@cmpt474'
+        }
+      });
+
+    var mailOptions = {
+    from: 'cmpt474@gmail.com',
+    to: email,
+    subject: 'Verification Code',
+    text: '1234'
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Email sent: ' + info.response);
+    }
+    });
+ }
 
 export default router;
