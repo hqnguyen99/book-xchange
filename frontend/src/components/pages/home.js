@@ -91,7 +91,7 @@ export default function Home() {
         () => [
             {
                 Header: 'Book\'s ID',
-                accessor: 'seller_id',
+                accessor: 'id',
                 sortType: 'alphanumeric',
             },
             {

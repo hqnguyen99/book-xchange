@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Grid, Header, List } from "semantic-ui-react";
+import { Container, Grid, List } from "semantic-ui-react";
 import axios from 'axios'
 import AuthContext from '../../store/auth-context';
 import styled from 'styled-components'
 import Url from '../../store/url';
+import BackButton from '../button/BackButton';
 
 const MiddleOfPage = styled.div`
     display: flex;
@@ -28,13 +29,17 @@ export default function BuyPage() {
         (async () => {
             const result = await axios(BookEndpoint, {
                 headers: {
-                    Authorization: "Bearer" + authCtx.accessToken,
-                    id: obj.seller_id
+                    Authorization: "Bearer " + authCtx.accessToken,
+                    id: obj.id
                 }
             });
-            setData(result.data);
+            console.log(result.data.books)
+            setData(result.data.books[0]);
         })();
     }, []);
+
+    console.log(data)
+    console.log(obj)
 
     return (
         <MiddleOfPage>
@@ -62,11 +67,15 @@ export default function BuyPage() {
                                 <List.Content>
                                     <p><i><u>Price</u></i>: {data.price}</p>
                                 </List.Content>
+                                <List.Content>
+                                    <p><i><u>Seller ID</u></i>: {data.seller_id}</p>
+                                </List.Content>
                             </List>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
             </Container>
+            <BackButton type="submit" title="Go Back"></BackButton>
         </MiddleOfPage>
     );
 }
