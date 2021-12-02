@@ -27,7 +27,7 @@ export default function BuyPage() {
             const result = await axios("https://jsonplaceholder.typicode.com/users/1", {
                 headers: {
                     Authorization: "Bearer" + authCtx.accessToken,
-                    id: obj.ID
+                    id: obj.seller_id
                 }
             });
             setData(result.data);
