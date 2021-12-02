@@ -1,11 +1,11 @@
 import mysql from 'mysql'
 
 const db_config = {
-    user: 'admin',
-    password: '123456789',
-    host: '',
-    port: 3306,
-    database: 'UserDB'
+  user: 'admin',
+  password: '123456789',
+  host: 'user.c23wqpytrs3b.us-east-1.rds.amazonaws.com',
+  port: 3306,
+  database: 'UserDB'
 }
 
 var db_connection;

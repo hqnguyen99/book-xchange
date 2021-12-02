@@ -3,7 +3,7 @@ import mysql from 'mysql'
 const db_config = {
     user: 'admin',
     password: '123456789',
-    host: '',
+    host: 'books.c23wqpytrs3b.us-east-1.rds.amazonaws.com',
     port: 3306,
     database: 'BookDB'
 }
@@ -11,7 +11,7 @@ const db_config = {
 var db_connection;
   function connectToDb(callback) {
     const attemptConnection = () => {
-      console.log('Attempting to connect to db')
+      console.log('Attempting to connect to db. Satnam')
       db_config.connectTimeout = 2000 // same as setTimeout to avoid server overload 
       db_connection = mysql.createConnection(db_config)
       db_connection.connect(function (err) {

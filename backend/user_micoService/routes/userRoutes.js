@@ -14,7 +14,7 @@ router.get('/all', async (req, res) => {
                 return res.json({users: result})
           });
     } catch (error){
-        res.status(500).json({error:error.message})
+        return res.status(500).json({error:error.message})
     }
 })
 
