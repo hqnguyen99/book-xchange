@@ -68,8 +68,7 @@ export default function SignupForm({ navigateHandler }) {
         });
       }
     })
-      .then((data) => {
-        authCtx.login(data.accessToken)
+      .then(() => {
         navigateHandler()
       })
       .catch((err) => {
