@@ -1,5 +1,5 @@
 const proxy_server_url= 'https://young-island-58664.herokuapp.com/'
-const url= proxy_server_url+ 'http://apigateway-457266473.us-east-1.elb.amazonaws.com:99';
+const url= proxy_server_url+ 'api-gateway-440942407.us-east-1.elb.amazonaws.com:99';
 const Url= {
     home_url: '',
     login_url: url + '/auth/login',
