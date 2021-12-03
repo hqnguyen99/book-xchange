@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ButtonTwo from '../button/ButtonTwo';
 import AuthContext from '../../store/auth-context';
 import Url from '../../store/url';
+import BackButton from '../button/BackButton';
 
 const MiddleOfPage = styled.div`
     display: flex;
@@ -13,6 +14,12 @@ const MiddleOfPage = styled.div`
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
+`;
+
+const GridTwoColumn = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
 `;
 
 export default function SellForm({ navigateHandler }) {
@@ -36,7 +43,7 @@ export default function SellForm({ navigateHandler }) {
     const enteredPublisher = publisherInputRef.current.value;
     const enteredPrice = priceInputRef.current.value;
     const enteredSellerID = sellerIDInputRef.current.value;
-    fetch(BookEndpoint, {
+    await fetch(BookEndpoint, {
       method: 'POST',
       body: JSON.stringify({
         title: enteredName,
@@ -48,7 +55,7 @@ export default function SellForm({ navigateHandler }) {
         seller_id: enteredSellerID
       }),
       headers: {
-        'Authorization' : "Bearer" + authCtx.accessToken,
+        'Authorization': "Bearer " + authCtx.accessToken,
         'Content-Type': 'application/json',
       }
     }).then((res) => {
@@ -103,9 +110,10 @@ export default function SellForm({ navigateHandler }) {
           <p>Seller ID*</p>
           <input type="text" id='seller_id' required ref={sellerIDInputRef} />
         </label>
-        <div>
+        <GridTwoColumn>
           <ButtonTwo type="submit" title="Sell Book"></ButtonTwo>
-        </div>
+          <BackButton type="submit" title="Go Back"></BackButton>
+        </GridTwoColumn>
       </form>
     </MiddleOfPage>
   )

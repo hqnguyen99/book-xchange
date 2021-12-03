@@ -91,7 +91,7 @@ export default function Home() {
         () => [
             {
                 Header: 'Book\'s ID',
-                accessor: 'seller_id',
+                accessor: 'id',
                 sortType: 'alphanumeric',
             },
             {
@@ -112,26 +112,29 @@ export default function Home() {
         ],
     )
 
-    const [data, setData] = useState([]);
-        
+    let newData = { "books": [{ "id": 1, "isbn": "dd", "title": "dd", "author": "dd", "edition": "dd", "publisher": "dd", "seller_id": "dd", "price": 0.07 }, { "id": 2, "isbn": "dd", "title": "dd", "author": "dd", "edition": "dd", "publisher": "dd", "seller_id": "dd", "price": 0.07 }, { "id": 3, "isbn": "111", "title": "h", "author": "john", "edition": "2", "publisher": "canada", "seller_id": "1", "price": 100 }, { "id": 4, "isbn": "1", "title": "math", "author": "1", "edition": "1", "publisher": "canada", "seller_id": "1", "price": 100 }] };
+    const [data, setData] = useState(newData.books);
+
     useEffect(() => {
         (async () => {
             console.log(authCtx.accessToken)
             const result = await axios(BookEndpoint, {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
-                    Authorization: "Bearer " + authCtx.accessToken
+                    Authorization: "Bearer " + authCtx.accessToken,
+                    'Content-Type': 'application/json',
                 }
             });
-            setData(result.data);
+            setData(result.data.books);
         })();
     }, []);
 
     const navigate = useNavigate();
-
     const toInfoPage = (data) => {
         navigate('/info', { state: data });
     }
+    /* console.log(data.books)
+    console.log(data) */
 
     return (
         <MiddleOfPage>
@@ -157,6 +160,7 @@ export default function Home() {
 function Table({ columns, data, getRowProps = () => ({}) }) {
     const [filterInput, setFilterInput] = useState("");
     // Use the state and functions returned from useTable to build your UI
+
     const {
         getTableProps,
         headerGroups,

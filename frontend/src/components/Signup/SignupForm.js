@@ -59,7 +59,7 @@ export default function SignupForm({ navigateHandler }) {
         return res.json();
       } else {
         return res.json().then((data) => {
-          let errorMessage = 'Authentication failed!';
+          let errorMessage = 'Signup failed!';
           // if (data && data.error && data.error.message) {
           //   errorMessage = data.error.message;
           // }
