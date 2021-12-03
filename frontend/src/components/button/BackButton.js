@@ -37,9 +37,9 @@ const Button=styled.button`
         color: ${Color.hover_color};
     }
 `
-export default function SellButton(){
+export default function BackButton(){
     const history = useNavigate()
     return (
-        <Button className="primary" onClick={()=>history('/sell')}>Sell Book</Button>
+        <Button className="primary" onClick={()=>history('/home')}>Back</Button>
     )
 }

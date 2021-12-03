@@ -22,11 +22,12 @@ export default function LoginForm({ navigateHandler }) {
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext)
 
+
   const handleSubmit = async e => {
     e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    fetch(loginEndpoint, {
+    await fetch(loginEndpoint, {
       method: 'POST',
       body: JSON.stringify({
         email: enteredEmail,
@@ -39,11 +40,13 @@ export default function LoginForm({ navigateHandler }) {
       if (res.ok) {
         return res.json();
       } else {
-        return res.json().then((data) => {
-          let errorMessage = 'Authentication failed!';
-          // if (data && data.error && data.error.message) {
-          //   errorMessage = data.error.message;
-          // }
+        return res.text().then((data) => {
+          console.log(res.status);
+          //console.log("login");
+          let errorMessage = res.status + '\n';
+           /* if (data && data.error) {
+             errorMessage += data.error;
+           } */
 
           throw new Error(errorMessage);
         });
@@ -51,10 +54,12 @@ export default function LoginForm({ navigateHandler }) {
     })
       .then((data) => {
         authCtx.login(data.accessToken);
+        console.log(data);
         navigateHandler()
       })
       .catch((err) => {
         alert(err.message);
+        console.log(err.message);
       });
   };
   return (

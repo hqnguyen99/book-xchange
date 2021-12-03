@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ButtonTwo from '../button/ButtonTwo';
 import AuthContext from '../../store/auth-context';
 import Url from '../../store/url';
+import BackButton from '../button/BackButton';
 
 const MiddleOfPage = styled.div`
     display: flex;
@@ -15,39 +16,46 @@ const MiddleOfPage = styled.div`
     transform: translate(-50%, -50%);
 `;
 
+const GridTwoColumn = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+`;
+
 export default function SellForm({ navigateHandler }) {
-  var BookEndpoint = Url.book_url;
+  var BookEndpoint = Url.add_book;
   console.log(BookEndpoint)
   const bookNameInputRef = useRef();
   const bookISBNInputRef = useRef();
-  const bookInfoInputRef = useRef();
-  const emailInputRef = useRef();
-  const phoneInputRef = useRef();
+  const bookAuthorInputRef = useRef();
+  const editionInputRef = useRef();
+  const publisherInputRef = useRef();
   const priceInputRef = useRef();
-  const postalCodeInputRef = useRef();
+  const sellerIDInputRef = useRef();
   const authCtx = useContext(AuthContext)
 
   const handleSubmit = async e => {
     e.preventDefault();
     const enteredName = bookNameInputRef.current.value;
     const enteredISBN = bookISBNInputRef.current.value;
-    const enteredInfo = bookInfoInputRef.current.value;
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPhone = phoneInputRef.current.value;
+    const enteredAuthor = bookAuthorInputRef.current.value;
+    const enteredEdition = editionInputRef.current.value;
+    const enteredPublisher = publisherInputRef.current.value;
     const enteredPrice = priceInputRef.current.value;
-    const enteredPostalCode = postalCodeInputRef.current.value;
-    fetch(BookEndpoint, {
+    const enteredSellerID = sellerIDInputRef.current.value;
+    await fetch(BookEndpoint, {
       method: 'POST',
       body: JSON.stringify({
-        book_name: enteredName,
-        book_ISBN: enteredISBN,
-        book_info: enteredInfo,
-        email: enteredEmail,
-        phone: enteredPhone,
+        title: enteredName,
+        isbn: enteredISBN,
+        author: enteredAuthor,
+        edition: enteredEdition,
+        publisher: enteredPublisher,
         price: enteredPrice,
-        postal_code: enteredPostalCode
+        seller_id: enteredSellerID
       }),
       headers: {
+        'Authorization': "Bearer " + authCtx.accessToken,
         'Content-Type': 'application/json',
       }
     }).then((res) => {
@@ -65,7 +73,6 @@ export default function SellForm({ navigateHandler }) {
       }
     })
       .then((data) => {
-        authCtx.login(data.accessToken) //need to check again
         navigateHandler()
       })
       .catch((err) => {
@@ -77,36 +84,37 @@ export default function SellForm({ navigateHandler }) {
       <form onSubmit={handleSubmit}>
         <label>
           <p>Book's Name*</p>
-          <input type="text" id='book_name' required ref={bookNameInputRef} />
+          <input type="text" id='title' required ref={bookNameInputRef} />
         </label>
         <label>
           <p>Book's ISBN*</p>
-          <input type="text" id='book_ISBN' required ref={bookISBNInputRef} />
+          <input type="text" id='isbn' required ref={bookISBNInputRef} />
         </label>
         <label>
-          <p>Book's Info</p>
-          <input type="text" id='book_info' required ref={bookInfoInputRef} />
+          <p>Book's Author</p>
+          <input type="text" id='author' required ref={bookAuthorInputRef} />
         </label>
         <label>
-          <p>Email*</p>
-          <input type="email" id='email' required ref={emailInputRef} />
+          <p>Book's Edition*</p>
+          <input type="text" id='edition' required ref={editionInputRef} />
         </label>
         <label>
-          <p>Phone*</p>
-          <input type="tel" id='phone' required ref={phoneInputRef} />
+          <p>Book's Publisher*</p>
+          <input type="text" id='publisher' required ref={publisherInputRef} />
         </label>
         <label>
           <p>Price*</p>
           <input type="number" min="0.01" step="0.01" id='price' required ref={priceInputRef} />
         </label>
         <label>
-          <p>Postal Code</p>
-          <input type="text" id='postal_code' required ref={postalCodeInputRef} />
+          <p>Seller ID*</p>
+          <input type="text" id='seller_id' required ref={sellerIDInputRef} />
         </label>
-        <div>
-          <ButtonTwo type="submit" title="Sign up"></ButtonTwo>
-        </div>
+        <GridTwoColumn>
+          <ButtonTwo type="submit" title="Sell Book"></ButtonTwo>
+          <BackButton type="submit" title="Go Back"></BackButton>
+        </GridTwoColumn>
       </form>
-    </MiddleOfPage >
+    </MiddleOfPage>
   )
 }

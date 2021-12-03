@@ -1,8 +1,11 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useTable, useFilters, useSortBy } from "react-table";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import styled from 'styled-components'
+import AuthContext from '../../store/auth-context';
+import SellButton from '../button/SellButton';
+import Url from '../../store/url';
 
 const Styles = styled.div`
 table {
@@ -70,7 +73,20 @@ table {
   }
   `
 
+const MiddleOfPage = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`;
+
 export default function Home() {
+    var BookEndpoint = Url.book_url;
+    const authCtx = useContext(AuthContext)
     const columns = React.useMemo(
         () => [
             {
@@ -80,54 +96,62 @@ export default function Home() {
             },
             {
                 Header: 'Book\'s Name',
-                accessor: 'name',
+                accessor: 'title',
                 sortType: 'alphanumeric',
             },
             {
                 Header: 'Book\'s ISBN',
-                accessor: 'phone',
+                accessor: 'isbn',
                 sortType: 'alphanumeric',
             },
             {
                 Header: 'Book\'s Price',
-                accessor: 'website',
+                accessor: 'price',
                 sortType: 'alphanumeric',
             },
         ],
     )
 
-    const [data, setData] = useState([]);
+    let newData = { "books": [{ "id": 1, "isbn": "dd", "title": "dd", "author": "dd", "edition": "dd", "publisher": "dd", "seller_id": "dd", "price": 0.07 }, { "id": 2, "isbn": "dd", "title": "dd", "author": "dd", "edition": "dd", "publisher": "dd", "seller_id": "dd", "price": 0.07 }, { "id": 3, "isbn": "111", "title": "h", "author": "john", "edition": "2", "publisher": "canada", "seller_id": "1", "price": 100 }, { "id": 4, "isbn": "1", "title": "math", "author": "1", "edition": "1", "publisher": "canada", "seller_id": "1", "price": 100 }] };
+    const [data, setData] = useState(newData.books);
 
     useEffect(() => {
         (async () => {
-            const result = await axios("https://jsonplaceholder.typicode.com/users", {
+            console.log(authCtx.accessToken)
+            const result = await axios(BookEndpoint, {
                 headers: {
-                    //Authorization : Bearer 'the acess token u get from login'
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + authCtx.accessToken,
+                    'Content-Type': 'application/json',
                 }
             });
-            setData(result.data);
+            setData(result.data.books);
         })();
     }, []);
 
     const navigate = useNavigate();
-
     const toInfoPage = (data) => {
         navigate('/info', { state: data });
     }
+    /* console.log(data.books)
+    console.log(data) */
 
     return (
-        <Styles>
-            <Table
-                columns={columns}
-                data={data}
-                getRowProps={row => ({
-                    onClick: () => toInfoPage(JSON.stringify(row.values)),
-                    style: {
-                        cursor: "pointer"
-                    }
-                })}
-            />
-        </Styles>
+        <MiddleOfPage>
+            <Styles>
+                <Table
+                    columns={columns}
+                    data={data}
+                    getRowProps={row => ({
+                        onClick: () => toInfoPage(JSON.stringify(row.values)),
+                        style: {
+                            cursor: "pointer"
+                        }
+                    })}
+                />
+                <SellButton type="submit" title="Sign Up"></SellButton>
+            </Styles>
+        </MiddleOfPage>
     );
 }
 
@@ -136,6 +160,7 @@ export default function Home() {
 function Table({ columns, data, getRowProps = () => ({}) }) {
     const [filterInput, setFilterInput] = useState("");
     // Use the state and functions returned from useTable to build your UI
+
     const {
         getTableProps,
         headerGroups,
@@ -153,7 +178,7 @@ function Table({ columns, data, getRowProps = () => ({}) }) {
 
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
-        setFilter("name", value);
+        setFilter("title", value);
         setFilterInput(value);
     };
 

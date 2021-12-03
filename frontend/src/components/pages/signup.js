@@ -8,6 +8,6 @@ export default function Signup(){
         history(path);
     }
     return (
-        <SignupForm navigateHandler= {()=>routeChange('/home')}></SignupForm>
+        <SignupForm navigateHandler= {()=>routeChange('/login')}></SignupForm>
     )
 }

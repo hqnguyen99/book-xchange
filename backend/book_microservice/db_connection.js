@@ -5,7 +5,7 @@ const db_config = {
     password: '123456789',
     host: '',
     port: 3306,
-    database: 'UserDB'
+    database: 'BookDB'
 }
 
 var db_connection;
