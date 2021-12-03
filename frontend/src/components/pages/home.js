@@ -178,7 +178,7 @@ function Table({ columns, data, getRowProps = () => ({}) }) {
 
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
-        setFilter("name", value);
+        setFilter("title", value);
         setFilterInput(value);
     };
 
