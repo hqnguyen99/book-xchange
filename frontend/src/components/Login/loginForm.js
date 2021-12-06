@@ -41,8 +41,7 @@ export default function LoginForm({ navigateHandler }) {
         return res.json();
       } else {
         return res.text().then((data) => {
-          console.log(res.status);
-          //console.log("login");
+          
           let errorMessage = res.status + '\n';
            /* if (data && data.error) {
              errorMessage += data.error;
@@ -54,12 +53,10 @@ export default function LoginForm({ navigateHandler }) {
     })
       .then((data) => {
         authCtx.login(data.accessToken);
-        console.log(data);
         navigateHandler()
       })
       .catch((err) => {
         alert(err.message);
-        console.log(err.message);
       });
   };
   return (

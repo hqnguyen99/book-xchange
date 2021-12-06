@@ -24,7 +24,6 @@ const GridTwoColumn = styled.div`
 
 export default function SellForm({ navigateHandler }) {
   var BookEndpoint = Url.add_book;
-  console.log(BookEndpoint)
   const bookNameInputRef = useRef();
   const bookISBNInputRef = useRef();
   const bookAuthorInputRef = useRef();

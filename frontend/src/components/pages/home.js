@@ -112,12 +112,11 @@ export default function Home() {
         ],
     )
 
-    let newData = { "books": [{ "id": 1, "isbn": "dd", "title": "dd", "author": "dd", "edition": "dd", "publisher": "dd", "seller_id": "dd", "price": 0.07 }, { "id": 2, "isbn": "dd", "title": "dd", "author": "dd", "edition": "dd", "publisher": "dd", "seller_id": "dd", "price": 0.07 }, { "id": 3, "isbn": "111", "title": "h", "author": "john", "edition": "2", "publisher": "canada", "seller_id": "1", "price": 100 }, { "id": 4, "isbn": "1", "title": "math", "author": "1", "edition": "1", "publisher": "canada", "seller_id": "1", "price": 100 }] };
+    let newData = { "books": [{ "id": 1, "isbn": "12345", "title": "Database System Concepts", "author": "Abraham Slbrschatz", "edition": "4", "publisher": "McGrawHill Collrgr", "seller_id": "1", "price": 70 }, { "id": 2, "isbn": "9789332526280", "title": "Concept Of Database Management System", "author": "Shefali Naik", "edition": "1", "publisher": "Pearson", "seller_id": "1", "price": 80 }, { "id": 3, "isbn": "9780131038059", "title": "Artificial Intelligence: A Modern Approach ", "author": "Stuart Russell", "edition": "2", "publisher": "Prentice Hall", "seller_id": "1", "price": 100 }, { "id": 4, "isbn": "9780898715385", "title": "Discrete Math in Computer Science", "author": "Martin Farach-Colton", "edition": "2", "publisher": "Soc for Industrial & Applied Math", "seller_id": "1", "price": 120 }] };
     const [data, setData] = useState(newData.books);
 
     useEffect(() => {
         (async () => {
-            console.log(authCtx.accessToken)
             const result = await axios(BookEndpoint, {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
@@ -133,8 +132,6 @@ export default function Home() {
     const toInfoPage = (data) => {
         navigate('/info', { state: data });
     }
-    /* console.log(data.books)
-    console.log(data) */
 
     return (
         <MiddleOfPage>
