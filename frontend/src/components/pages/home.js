@@ -146,7 +146,7 @@ export default function Home() {
                         }
                     })}
                 />
-                <SellButton type="submit" title="Sign Up"></SellButton>
+                {authCtx.isLoggedIn && <SellButton type="submit"></SellButton>}
             </Styles>
         </MiddleOfPage>
     );
