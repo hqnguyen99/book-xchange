@@ -33,13 +33,9 @@ export default function BuyPage() {
                     id: obj.id
                 }
             });
-            console.log(result.data.books)
             setData(result.data.books[0]);
         })();
     }, []);
-
-    console.log(data)
-    console.log(obj)
 
     return (
         <MiddleOfPage>

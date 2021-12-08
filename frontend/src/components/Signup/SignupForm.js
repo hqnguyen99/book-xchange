@@ -1,7 +1,6 @@
-import React, { useRef, useContext } from 'react'
+import React, { useRef} from 'react'
 import styled from 'styled-components'
 import ButtonTwo from '../button/ButtonTwo';
-import AuthContext from '../../store/auth-context';
 import Url from '../../store/url';
 
 const MiddleOfPage = styled.div`
@@ -16,9 +15,7 @@ const MiddleOfPage = styled.div`
 `;
 
 export default function SignupForm({ navigateHandler }) {
-  const googleEp = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]";
   var signupEndpoint = Url.signup_url;
-  console.log(signupEndpoint)
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const firstNameInputRef = useRef();
@@ -27,7 +24,6 @@ export default function SignupForm({ navigateHandler }) {
   const loginIdInputRef = useRef();
   const addressInputRef = useRef();
   const postalCodeInputRef = useRef();
-  const authCtx = useContext(AuthContext)
 
   const handleSubmit = async e => {
     e.preventDefault();
