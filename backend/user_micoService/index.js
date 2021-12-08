@@ -18,4 +18,4 @@ app.use(json())
 
 app.use('/user', userRouter)
 
-app.listen(PORT, ()=>{console.log(`server is listening on ${PORT}`)})
+app.listen(3000, ()=>{console.log(`server is listening on Satnam ${PORT}`)})
